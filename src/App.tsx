@@ -197,7 +197,7 @@ export default function App() {
     window.addEventListener('resize', handleResize)
     
     // Background Music Initialization
-    audioRef.current = new Audio('/background-music.mp3')
+    audioRef.current = new Audio('background-music.mp3')
     audioRef.current.loop = true
     audioRef.current.volume = 0.4
 
@@ -389,7 +389,7 @@ export default function App() {
             <button className="btn-hero-primary" onClick={() => setIsContactOpen(true)}>
               <Mail size={18} /> Hire Me
             </button>
-            <a className="btn-hero-outline" href="/RESUME.pdf" download="ALWEN_CASAGAN_RESUME.pdf">
+            <a className="btn-hero-outline" href="RESUME.pdf" download="ALWEN_CASAGAN_RESUME.pdf">
               <span>📥</span> Download CV
             </a>
           </div>

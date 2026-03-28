@@ -7,5 +7,7 @@
   RewriteRule . /index.html [L]
 </IfModule>
 
-# Ensure WASM files are served with the correct MIME type
+# Ensure GLTF/GLB files are served with the correct MIME type
+AddType model/gltf-binary .glb
+AddType model/gltf+json .gltf
 AddType application/wasm .wasm

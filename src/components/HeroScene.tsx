@@ -15,35 +15,35 @@ const getUrl = (path: string) => `${CDN_URL}${path}`
 // Colour palette: creamy whites, warm woods, pops of colour
 
 function DeskModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/desk.glb'), '/draco/')
+  const { scene } = useGLTF(getUrl('desk.glb'), 'draco/')
   const clone = useMemo(() => scene.clone(), [scene])
   useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
 }
 
 function PCModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/gaming_pc-draco.glb'), '/draco/')
+  const { scene } = useGLTF(getUrl('gaming_pc-draco.glb'), 'draco/')
   const clone = useMemo(() => scene.clone(), [scene])
   useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
 }
 
 function KeyboardModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/basic_keyboard.glb'), '/draco/')
+  const { scene } = useGLTF(getUrl('basic_keyboard.glb'), 'draco/')
   const clone = useMemo(() => scene.clone(), [scene])
   useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
 }
 
 function MonitorModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/desktop.glb'), '/draco/')
+  const { scene } = useGLTF(getUrl('desktop.glb'), 'draco/')
   const clone = useMemo(() => scene.clone(), [scene])
   useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
 }
 
 function RoomModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/room-draco.glb'), '/draco/')
+  const { scene } = useGLTF(getUrl('room-draco.glb'), 'draco/')
   // Recolour blue materials once when the scene is first loaded (useMemo avoids re-running on every render)
   useMemo(() => {
     scene.traverse((child) => {
@@ -98,13 +98,13 @@ function Mouse({ pos }: { pos: [number, number, number] }) {
 }
 
 function BananaPlant({ pos, scale, onLoad }: { pos: [number, number, number], scale: number, onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/banana_plant_with_pot.glb'), '/draco/')
+  const { scene } = useGLTF(getUrl('banana_plant_with_pot.glb'), 'draco/')
   useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={scene} position={pos} scale={scale} />
 }
 
 function OfficeChair({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
-  const { nodes, materials } = useGLTF(getUrl('/office_chair.glb'), '/draco/') as any
+  const { nodes, materials } = useGLTF(getUrl('office_chair.glb'), 'draco/') as any
   useEffect(() => { onLoad(); }, [onLoad]);
   return (
     <group position={pos} scale={scale} rotation={rotation}>
@@ -125,13 +125,13 @@ function OfficeChair({ pos, scale, rotation, onLoad }: { pos: [number, number, n
 }
 
 function AnimatedModel({ pos, onLoad }: { pos: [number, number, number], onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/model.glb?v=2'), '/draco/')
+  const { scene } = useGLTF(getUrl('model.glb?v=2'), 'draco/')
   // Properly clone the skinned mesh using SkeletonUtils
   const clonedScene = useMemo(() => {
     return SkeletonUtils.clone(scene)
   }, [scene])
 
-  const fbx = useFBX(getUrl('/Typing.fbx'))
+  const fbx = useFBX(getUrl('Typing.fbx'))
   const { actions } = useAnimations(fbx.animations, clonedScene)
 
   useEffect(() => {
@@ -173,14 +173,14 @@ function Rug() {
 
 
 // Preload all GLTFs used in HeroScene so they are fetched in parallel before render
-useGLTF.preload(getUrl('/desk.glb'), '/draco/')
-useGLTF.preload(getUrl('/gaming_pc-draco.glb'), '/draco/')
-useGLTF.preload(getUrl('/basic_keyboard.glb'), '/draco/')
-useGLTF.preload(getUrl('/desktop.glb'), '/draco/')
-useGLTF.preload(getUrl('/room-draco.glb'), '/draco/')
-useGLTF.preload(getUrl('/model.glb?v=2'), '/draco/')
-useGLTF.preload(getUrl('/banana_plant_with_pot.glb'), '/draco/')
-useGLTF.preload(getUrl('/office_chair.glb'), '/draco/')
+useGLTF.preload(getUrl('desk.glb'), 'draco/')
+useGLTF.preload(getUrl('gaming_pc-draco.glb'), 'draco/')
+useGLTF.preload(getUrl('basic_keyboard.glb'), 'draco/')
+useGLTF.preload(getUrl('desktop.glb'), 'draco/')
+useGLTF.preload(getUrl('room-draco.glb'), 'draco/')
+useGLTF.preload(getUrl('model.glb?v=2'), 'draco/')
+useGLTF.preload(getUrl('banana_plant_with_pot.glb'), 'draco/')
+useGLTF.preload(getUrl('office_chair.glb'), 'draco/')
 
 export default function HeroScene() {
   const loadedCountRef = useRef(0)

@@ -9,15 +9,15 @@ import { Environment } from '../model/Environment'
 import { scrollState } from '../stores/scrollStore'
 
 // Preload all heavy assets up-front
-useGLTF.preload('/model.glb?v=2', '/draco/')
-useGLTF.preload('/Animation/Falling Idle.glb', '/draco/')
+useGLTF.preload('model.glb?v=2', 'draco/')
+useGLTF.preload('Animation/Falling Idle.glb', 'draco/')
 
 export default function AboutScene() {
-  const gltf = useGLTF('/model.glb?v=2', '/draco/')
-  const fbxIdle = useFBX('/Animation/Standing Idle.fbx')
-  const gltfFalling = useGLTF('/Animation/Falling Idle.glb', '/draco/')
-  const fbxWalkFwd = useFBX('/Animation/Walking.fbx')
-  const fbxWaving = useFBX('/Animation/Waving.fbx')
+  const gltf = useGLTF('model.glb?v=2', 'draco/')
+  const fbxIdle = useFBX('Animation/Standing Idle.fbx')
+  const gltfFalling = useGLTF('Animation/Falling Idle.glb', 'draco/')
+  const fbxWalkFwd = useFBX('Animation/Walking.fbx')
+  const fbxWaving = useFBX('Animation/Waving.fbx')
 
   // Refs for scene elements
   const parallaxGroupRef = useRef<THREE.Group>(null!)

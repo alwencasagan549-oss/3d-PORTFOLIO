@@ -16,10 +16,12 @@ export default defineConfig({
         manualChunks: {
           three: ['three'],
           'react-three': ['@react-three/fiber', '@react-three/drei'],
-          gsap: ['gsap']
+          gsap: ['gsap'],
+          vendor: ['react', 'react-dom']
         }
       }
     },
+    chunkSizeWarningLimit: 1000,
     sourcemap: false
   },
   assetsInclude: ['**/*.glb', '**/*.fbx']
