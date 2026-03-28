@@ -69,6 +69,10 @@ export default function LoadingScreen() {
         </div>
       </div>
       
+      <div className="loading-desktop-hint">
+        View in Desktop For More Interactive Feature
+      </div>
+
       <div className="loading-bg-pulse" />
     </div>
   )
