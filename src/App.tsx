@@ -1,4 +1,4 @@
-import { Suspense, useState, useRef, useEffect, useLayoutEffect } from 'react'
+import { Suspense, useState, useRef, useEffect, useLayoutEffect, lazy } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { AdaptiveDpr, AdaptiveEvents, Preload } from '@react-three/drei'
 import { Github, Mail, Linkedin, Volume2, VolumeX, Phone, MapPin, Menu, X, ExternalLink, AlertTriangle } from 'lucide-react'
@@ -6,7 +6,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import HeroScene from './components/HeroScene'
-import AboutScene, { scrollState } from './components/AboutScene'
+const AboutScene = lazy(() => import('./components/AboutScene'))
+import { scrollState } from './stores/scrollStore'
 import LoadingScreen from './components/LoadingScreen'
 import ContactForm from './components/ContactForm'
 

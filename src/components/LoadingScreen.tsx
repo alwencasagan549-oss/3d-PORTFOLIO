@@ -27,14 +27,14 @@ export default function LoadingScreen() {
   }, [])
 
   useEffect(() => {
-    loadingStore.onAllReady(() => {
+    loadingStore.onHeroReady(() => {
       setScenesReady(true)
     })
   }, [])
 
   useEffect(() => {
     if (!active && progress >= 100 && scenesReady) {
-      const t = setTimeout(() => setVisible(false), 800)
+      const t = setTimeout(() => setVisible(false), 400)
       return () => clearTimeout(t)
     }
   }, [active, progress, scenesReady])

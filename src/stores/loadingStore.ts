@@ -16,8 +16,24 @@ class LoadingStore {
     this.checkAllReady()
   }
 
+  isHeroReady() {
+    return this.heroReady
+  }
+
+  isAboutReady() {
+    return this.aboutReady
+  }
+
   allReady() {
     return this.heroReady && this.aboutReady
+  }
+
+  onHeroReady(callback: ReadyCallback) {
+    if (this.heroReady) {
+      callback()
+    } else {
+      this.callbacks.push(callback)
+    }
   }
 
   onAllReady(callback: ReadyCallback) {

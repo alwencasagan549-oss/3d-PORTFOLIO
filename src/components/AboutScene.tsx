@@ -6,15 +6,7 @@ import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { loadingStore } from '../stores/loadingStore'
 import { Character } from '../model/Character'
 import { Environment } from '../model/Environment'
-
-// Global scroll state — written by App.tsx GSAP, read by useFrame
-export const scrollState = {
-  progress: 0,     // 0–1 as user scrolls through the about section
-  prevProgress: 0,
-  triggerWaving: false, // Set to true from App.tsx to play wave
-  wavePlayed: false,    // Track if auto-wave already happened
-  waveFinished: false,  // Release scroll-lock in App.tsx when true
-}
+import { scrollState } from '../stores/scrollStore'
 
 // Preload all heavy assets up-front
 useGLTF.preload('/model.glb?v=2', '/draco/')

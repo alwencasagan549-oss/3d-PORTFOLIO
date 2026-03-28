@@ -22,7 +22,7 @@ function DeskModel({ pos, scale, rotation, onLoad }: { pos: [number, number, num
 }
 
 function PCModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/gaming_pc.glb'), '/draco/')
+  const { scene } = useGLTF(getUrl('/gaming_pc-draco.glb'), '/draco/')
   const clone = useMemo(() => scene.clone(), [scene])
   useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
@@ -43,7 +43,7 @@ function MonitorModel({ pos, scale, rotation, onLoad }: { pos: [number, number, 
 }
 
 function RoomModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
-  const { scene } = useGLTF(getUrl('/room.glb'), '/draco/')
+  const { scene } = useGLTF(getUrl('/room-draco.glb'), '/draco/')
   // Recolour blue materials once when the scene is first loaded (useMemo avoids re-running on every render)
   useMemo(() => {
     scene.traverse((child) => {
@@ -174,10 +174,10 @@ function Rug() {
 
 // Preload all GLTFs used in HeroScene so they are fetched in parallel before render
 useGLTF.preload(getUrl('/desk.glb'), '/draco/')
-useGLTF.preload(getUrl('/gaming_pc.glb'), '/draco/')
+useGLTF.preload(getUrl('/gaming_pc-draco.glb'), '/draco/')
 useGLTF.preload(getUrl('/basic_keyboard.glb'), '/draco/')
 useGLTF.preload(getUrl('/desktop.glb'), '/draco/')
-useGLTF.preload(getUrl('/room.glb'), '/draco/')
+useGLTF.preload(getUrl('/room-draco.glb'), '/draco/')
 useGLTF.preload(getUrl('/model.glb?v=2'), '/draco/')
 useGLTF.preload(getUrl('/banana_plant_with_pot.glb'), '/draco/')
 useGLTF.preload(getUrl('/office_chair.glb'), '/draco/')
