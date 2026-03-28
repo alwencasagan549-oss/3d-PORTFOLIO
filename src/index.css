@@ -65,6 +65,16 @@ body {
   opacity: 0.35;
   border-radius: 50%;
   animation: blob-float 20s infinite alternate;
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .bg-blob {
+    filter: blur(40px); /* Reduced blur for mobile performance */
+    opacity: 0.2;
+    width: 60vw;
+    height: 60vw;
+  }
 }
 
 @keyframes blob-float {
@@ -246,8 +256,16 @@ body {
   padding: 16px clamp(24px, 6vw, 80px);
   background: rgba(3, 7, 18, 0.7);
   backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .navbar.scrolled {
+    backdrop-filter: blur(8px); /* Lighter blur for mobile */
+    -webkit-backdrop-filter: blur(8px);
+  }
 }
 
 .navbar-logo {
@@ -393,12 +411,39 @@ body {
 }
 
 .hero-text-block {
-  position: absolute;
-  left: clamp(20px, 8vw, 120px);
-  top: 45%;
-  transform: translateY(-50%);
   z-index: 10;
   pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 768px) {
+  .hero-text-block {
+    position: relative;
+    left: 0;
+    top: 0;
+    transform: none;
+    padding: 0 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+  }
+  
+  .hero-name {
+    text-align: center;
+    letter-spacing: -2px;
+    margin: 10px 0;
+  }
+  
+  .hero-role {
+    margin: 0 auto 24px;
+  }
+  
+  .hero-ctas, .hero-stats {
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 .hero-name {
@@ -654,6 +699,8 @@ body {
   will-change: opacity, transform;
   pointer-events: auto;
   /* Re-enable clicks for items */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .scrolly-item.active {
@@ -1175,6 +1222,7 @@ body {
   transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 0.12s ease, box-shadow 0.4s ease, border-color 0.4s ease;
   will-change: transform;
+  backface-visibility: hidden;
 
   /* L-bracket corner accents via layered inset shadows */
   box-shadow:
@@ -1183,6 +1231,13 @@ body {
     inset -16px 16px 0 -14px rgba(168, 85, 247, 0.55),
     inset 16px -16px 0 -14px rgba(168, 85, 247, 0.5),
     inset -16px -16px 0 -14px rgba(99, 102, 241, 0.55);
+}
+
+@media (max-width: 768px) {
+  .project-card {
+    transform: none !important; /* Disable 3D tilt on mobile for better performance */
+    padding: 24px 20px;
+  }
 }
 
 /* Scan-line sweep — travels top → bottom on a loop (sci-fi readout) */

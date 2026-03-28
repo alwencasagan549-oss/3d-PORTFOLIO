@@ -89,60 +89,67 @@ export default function App() {
         scrub: 0.5,
         anticipatePin: 1,
         onUpdate: (self) => {
-          const p = Math.min(Math.max(self.progress, 0), 1)
-          
-          // SCROLL-LOCK: Cap visual progress at 0.99 until wave is done
-          let visualP = p
-          if (p >= 0.99 && !scrollState.waveFinished) {
-            visualP = 0.99
-          }
-
-          // Reset flags if scrolling back up
-          if (p < 0.90) {
-            scrollState.waveFinished = false
-          }
-
-          scrollState.progress = visualP
-          // PROGRESS BAR UPDATE: Directly update DOM to avoid re-render
-          const bar = document.querySelector('.about-progress-fill') as HTMLElement
-          if (bar) bar.style.width = `${visualP * 100}%`
-
-          // CHAPTER MILESTONES UPDATE: Directly update DOM
-          const markers = document.querySelectorAll('.chapter-marker')
-          const thresholds = [0, 0.20, 0.35, 0.55, 0.81]
-          markers.forEach((marker, i) => {
-            const threshold = thresholds[i]
-            const nextThreshold = thresholds[i + 1] || 1.1
-            const isActive = visualP >= threshold && visualP < nextThreshold
-            const isCompleted = visualP >= nextThreshold
+          // Use requestAnimationFrame for smoother updates on high-refresh screens
+          requestAnimationFrame(() => {
+            const p = Math.min(Math.max(self.progress, 0), 1)
             
-            if (isActive) marker.classList.add('active')
-            else marker.classList.remove('active')
-            
-            if (isCompleted) marker.classList.add('completed')
-            else marker.classList.remove('completed')
-          })
+            // SCROLL-LOCK: Cap visual progress at 0.99 until wave is done
+            let visualP = p
+            if (p >= 0.99 && !scrollState.waveFinished) {
+              visualP = 0.99
+            }
 
-          // SCROLLY ITEMS UPDATE: Directly update DOM
-          const items = document.querySelectorAll('.scrolly-item')
-          const isMobile = window.innerWidth <= 768
-          const itemRanges = isMobile ? [
-            { id: 0, start: 0.15, end: 0.28 }, // Name (triggered earlier on mobile)
-            { id: 1, start: 0.32, end: 0.50 }, // Skills
-            { id: 2, start: 0.55, end: 0.78 }, // Summary
-            { id: 3, start: 0.82, end: 2.00 }  // Connect
-          ] : [
-            { id: 0, start: 0.22, end: 0.33 }, // Name
-            { id: 1, start: 0.37, end: 0.53 }, // Skills
-            { id: 2, start: 0.58, end: 0.79 }, // Summary
-            { id: 3, start: 0.81, end: 2.00 }  // Connect
-          ]
-          items.forEach((item, i) => {
-            const range = itemRanges[i]
-            if (range && visualP >= range.start && visualP < range.end) {
-              item.classList.add('active')
-            } else {
-              item.classList.remove('active')
+            // Reset flags if scrolling back up
+            if (p < 0.90) {
+              scrollState.waveFinished = false
+            }
+
+            if (scrollState.progress !== visualP) {
+              scrollState.progress = visualP
+              
+              // PROGRESS BAR UPDATE: Directly update DOM to avoid React re-render cycle
+              const bar = document.querySelector('.about-progress-fill') as HTMLElement
+              if (bar) bar.style.width = `${visualP * 100}%`
+
+              // CHAPTER MILESTONES UPDATE: Optimization - only update if needed
+              const markers = document.querySelectorAll('.chapter-marker')
+              const thresholds = [0, 0.20, 0.35, 0.55, 0.81]
+              markers.forEach((marker, i) => {
+                const threshold = thresholds[i]
+                const nextThreshold = thresholds[i + 1] || 1.1
+                const isActive = visualP >= threshold && visualP < nextThreshold
+                const isCompleted = visualP >= nextThreshold
+                
+                if (isActive) marker.classList.add('active')
+                else marker.classList.remove('active')
+                
+                if (isCompleted) marker.classList.add('completed')
+                else marker.classList.remove('completed')
+              })
+
+              // SCROLLY ITEMS UPDATE: Optimization - use simpler logic
+              const items = document.querySelectorAll('.scrolly-item')
+              const isMobile = window.innerWidth <= 768
+              const itemRanges = isMobile ? [
+                { start: 0.15, end: 0.28 }, // Name
+                { start: 0.32, end: 0.50 }, // Skills
+                { start: 0.55, end: 0.78 }, // Summary
+                { start: 0.82, end: 2.00 }  // Connect
+              ] : [
+                { start: 0.22, end: 0.33 }, // Name
+                { start: 0.37, end: 0.53 }, // Skills
+                { start: 0.58, end: 0.79 }, // Summary
+                { start: 0.81, end: 2.00 }  // Connect
+              ]
+              
+              items.forEach((item, i) => {
+                const range = itemRanges[i]
+                if (range && visualP >= range.start && visualP < range.end) {
+                  if (!item.classList.contains('active')) item.classList.add('active')
+                } else {
+                  if (item.classList.contains('active')) item.classList.remove('active')
+                }
+              })
             }
           })
         }
@@ -153,39 +160,7 @@ export default function App() {
     // Trigger once on mount
     handleScroll()
     
-    // MOBILE FIX: Direct touch scroll handling for model animation
-    const isMobile = window.innerWidth <= 768
-    
-    const handleTouchMove = () => {
-      if (!isMobile) return
-      
-      // Force ScrollTrigger update on mobile touch
-      ScrollTrigger.update()
-      
-      // Calculate about section progress directly
-      const aboutWrapper = sectionRefs.aboutWrapper.current
-      if (aboutWrapper) {
-        const rect = aboutWrapper.getBoundingClientRect()
-        const wrapperHeight = aboutWrapper.offsetHeight
-        const viewportHeight = window.innerHeight
-        
-        // Calculate scroll progress through about section
-        const scrolled = -rect.top
-        const totalScrollable = wrapperHeight - viewportHeight
-        
-        if (scrolled >= 0 && scrolled <= totalScrollable) {
-          const progress = Math.min(Math.max(scrolled / totalScrollable, 0), 1)
-          scrollState.progress = progress
-        }
-      }
-    }
-    
-    if (isMobile) {
-      window.addEventListener('touchmove', handleTouchMove, { passive: true })
-      window.addEventListener('scroll', handleTouchMove, { passive: true })
-    }
-    
-    // Refresh ScrollTrigger after mount to ensure proper mobile touch detection
+    // Refresh ScrollTrigger after mount
     const refreshTimeout = setTimeout(() => {
       ScrollTrigger.refresh()
     }, 100)
@@ -205,7 +180,6 @@ export default function App() {
       ctx.revert()
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', handleResize)
-      window.removeEventListener('touchmove', handleTouchMove)
       clearTimeout(refreshTimeout)
       
       // Cleanup Audio
@@ -441,7 +415,7 @@ export default function App() {
       <div
         className="about-pin-wrapper"
         ref={sectionRefs.aboutWrapper}
-        style={{ height: '1200vh', position: 'relative' }} // Pinned on all devices
+        style={{ height: typeof window !== 'undefined' && window.innerWidth <= 768 ? '800vh' : '1200vh', position: 'relative' }} // Faster on mobile
       >
         <section 
           className="page-section about-section" 
