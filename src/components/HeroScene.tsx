@@ -1,8 +1,7 @@
-import { useRef, useEffect, useMemo, useCallback } from 'react'
+import { useEffect, useMemo } from 'react'
 import { RoundedBox, useGLTF, useFBX, useAnimations } from '@react-three/drei'
 import * as THREE from 'three'
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js'
-import { loadingStore } from '../stores/loadingStore'
 
 // In production, Vercel will act as a CDN, but your models are VERY large (over 120MB total).
 // If you want to use a dedicated external CDN (like jsDelivr, AWS S3, or Cloudinary), 
@@ -14,35 +13,31 @@ const getUrl = (path: string) => `${CDN_URL}${path}`
 // Warm isometric desk scene for the hero section
 // Colour palette: creamy whites, warm woods, pops of colour
 
-function DeskModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
+function DeskModel({ pos, scale, rotation }: { pos: [number, number, number], scale: number, rotation: [number, number, number] }) {
   const { scene } = useGLTF(getUrl('desk.glb'), 'draco/')
   const clone = useMemo(() => scene.clone(), [scene])
-  useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
 }
 
-function PCModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
+function PCModel({ pos, scale, rotation }: { pos: [number, number, number], scale: number, rotation: [number, number, number] }) {
   const { scene } = useGLTF(getUrl('gaming_pc-draco.glb'), 'draco/')
   const clone = useMemo(() => scene.clone(), [scene])
-  useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
 }
 
-function KeyboardModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
+function KeyboardModel({ pos, scale, rotation }: { pos: [number, number, number], scale: number, rotation: [number, number, number] }) {
   const { scene } = useGLTF(getUrl('basic_keyboard.glb'), 'draco/')
   const clone = useMemo(() => scene.clone(), [scene])
-  useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
 }
 
-function MonitorModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
+function MonitorModel({ pos, scale, rotation }: { pos: [number, number, number], scale: number, rotation: [number, number, number] }) {
   const { scene } = useGLTF(getUrl('desktop.glb'), 'draco/')
   const clone = useMemo(() => scene.clone(), [scene])
-  useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={clone} position={pos} scale={scale} rotation={rotation} />
 }
 
-function RoomModel({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
+function RoomModel({ pos, scale, rotation }: { pos: [number, number, number], scale: number, rotation: [number, number, number] }) {
   const { scene } = useGLTF(getUrl('room-draco.glb'), 'draco/')
   // Recolour blue materials once when the scene is first loaded (useMemo avoids re-running on every render)
   useMemo(() => {
@@ -58,7 +53,6 @@ function RoomModel({ pos, scale, rotation, onLoad }: { pos: [number, number, num
       }
     })
   }, [scene])
-  useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={scene} position={pos} scale={scale} rotation={rotation} />
 }
 
@@ -97,15 +91,13 @@ function Mouse({ pos }: { pos: [number, number, number] }) {
   )
 }
 
-function BananaPlant({ pos, scale, onLoad }: { pos: [number, number, number], scale: number, onLoad: () => void }) {
+function BananaPlant({ pos, scale }: { pos: [number, number, number], scale: number }) {
   const { scene } = useGLTF(getUrl('banana_plant_with_pot.glb'), 'draco/')
-  useEffect(() => { onLoad(); }, [onLoad]);
   return <primitive object={scene} position={pos} scale={scale} />
 }
 
-function OfficeChair({ pos, scale, rotation, onLoad }: { pos: [number, number, number], scale: number, rotation: [number, number, number], onLoad: () => void }) {
+function OfficeChair({ pos, scale, rotation }: { pos: [number, number, number], scale: number, rotation: [number, number, number] }) {
   const { nodes, materials } = useGLTF(getUrl('office_chair.glb'), 'draco/') as any
-  useEffect(() => { onLoad(); }, [onLoad]);
   return (
     <group position={pos} scale={scale} rotation={rotation}>
       {nodes['OfficeChair_OfficeChairMetal_0'] && (
@@ -124,7 +116,7 @@ function OfficeChair({ pos, scale, rotation, onLoad }: { pos: [number, number, n
   )
 }
 
-function AnimatedModel({ pos, onLoad }: { pos: [number, number, number], onLoad: () => void }) {
+function AnimatedModel({ pos }: { pos: [number, number, number] }) {
   const { scene } = useGLTF(getUrl('model.glb?v=2'), 'draco/')
   // Properly clone the skinned mesh using SkeletonUtils
   const clonedScene = useMemo(() => {
@@ -140,8 +132,7 @@ function AnimatedModel({ pos, onLoad }: { pos: [number, number, number], onLoad:
     if (action) {
       action.play()
     }
-    onLoad();
-  }, [actions, onLoad]);
+  }, [actions]);
 
   return (
     <group position={pos} rotation={[0, Math.PI, 0]} scale={1}>
@@ -183,20 +174,10 @@ useGLTF.preload(getUrl('banana_plant_with_pot.glb'), 'draco/')
 useGLTF.preload(getUrl('office_chair.glb'), 'draco/')
 
 export default function HeroScene() {
-  const loadedCountRef = useRef(0)
-  const totalModels = 8; // Room, Desk, Monitor, PC, Keyboard, BananaPlant, OfficeChair, AnimatedModel
-
-  const handleModelLoad = useCallback(() => {
-    loadedCountRef.current += 1;
-    if (loadedCountRef.current >= totalModels) {
-      loadingStore.setHeroReady(true);
-    }
-  }, []);
-
   return (
     <group rotation={[0.22, -0.55, 0.1]} position={[0.3, -0.3, 0]}>
       {/* Room Model as a larger environment */}
-      <RoomModel pos={[0, 1.15, 0]} rotation={[0, 0, 0]} scale={2} onLoad={handleModelLoad} />
+      <RoomModel pos={[0, 1.15, 0]} rotation={[0, 0, 0]} scale={2} />
 
       {/* Floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
@@ -208,25 +189,25 @@ export default function HeroScene() {
       <Rug />
 
       {/* Desk */}
-      <DeskModel pos={[0.1, -0.59, 0]} rotation={[0, 0, 0]} scale={1} onLoad={handleModelLoad} />
+      <DeskModel pos={[0.1, -0.59, 0]} rotation={[0, 0, 0]} scale={1} />
 
       {/* Monitors */}
-      <MonitorModel pos={[0.56, 0.52, 0.25]} rotation={[0, 0, 0]} scale={0.3} onLoad={handleModelLoad} />
+      <MonitorModel pos={[0.56, 0.52, 0.25]} rotation={[0, 0, 0]} scale={0.3} />
 
       {/* Pencil cup */}
       <PencilCup pos={[1.098, 0.62, 0.46]} />
 
       {/* Model sitting and typing */}
-      <AnimatedModel pos={[0.53, 0.01, 1.46]} onLoad={handleModelLoad} />
+      <AnimatedModel pos={[0.53, 0.01, 1.46]} />
 
       {/* Chair */}
-      <OfficeChair pos={[0.5, -0.20, 1.4]} rotation={[1.57, 3.14, 0]} scale={1.0} onLoad={handleModelLoad} />
+      <OfficeChair pos={[0.5, -0.20, 1.4]} rotation={[1.57, 3.14, 0]} scale={1.0} />
 
       {/* Big plant beside desk */}
-      <BananaPlant pos={[1.6, -0.18, 0.55]} scale={0.5} onLoad={handleModelLoad} />
+      <BananaPlant pos={[1.6, -0.18, 0.55]} scale={0.5} />
 
       {/* Keyboard and Mouse */}
-      <KeyboardModel pos={[-0.88, 0.7, -0.01]} rotation={[0, 0, 0]} scale={1.5} onLoad={handleModelLoad} />
+      <KeyboardModel pos={[-0.88, 0.7, -0.01]} rotation={[0, 0, 0]} scale={1.5} />
       <Mouse pos={[0.75, 0.7, 0.65]} />
 
       {/* Small speaker */}
@@ -235,7 +216,7 @@ export default function HeroScene() {
       </RoundedBox>
 
       {/* PC Tower */}
-      <PCModel pos={[-0.66, 1.3, 0.2]} rotation={[0, Math.PI / 2.2, -3]} scale={0.06} onLoad={handleModelLoad} />
+      <PCModel pos={[-0.66, 1.3, 0.2]} rotation={[0, Math.PI / 2.2, -3]} scale={0.06} />
     </group>
   )
 }

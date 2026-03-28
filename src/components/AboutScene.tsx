@@ -3,7 +3,6 @@ import { useFrame } from '@react-three/fiber'
 import { useGLTF, useFBX } from '@react-three/drei'
 import * as THREE from 'three'
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js'
-import { loadingStore } from '../stores/loadingStore'
 import { Character } from '../model/Character'
 import { Environment } from '../model/Environment'
 import { scrollState } from '../stores/scrollStore'
@@ -52,8 +51,6 @@ export default function AboutScene() {
   const mouseRef = useRef(new THREE.Vector2(0, 0))
 
   useEffect(() => {
-    loadingStore.setAboutReady(true)
-
     const handlePointer = (e: MouseEvent | TouchEvent) => {
       let x, y
       if ('touches' in e) {

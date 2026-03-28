@@ -1,11 +1,9 @@
 import { useProgress } from '@react-three/drei'
 import { useEffect, useState } from 'react'
-import { loadingStore } from '../stores/loadingStore'
 
 export default function LoadingScreen() {
   const { progress, active } = useProgress()
   const [visible, setVisible] = useState(true)
-  const [scenesReady, setScenesReady] = useState(false)
   const [statusIndex, setStatusIndex] = useState(0)
 
   const techMessages = [
@@ -26,22 +24,29 @@ export default function LoadingScreen() {
     return () => clearInterval(interval)
   }, [])
 
+  // The core of the speed improvement:
+  // 1. Rely strictly on useProgress (no blocking on background scenes)
+  // 2. Fades out as soon as essentials are ready
+  // 3. Built-in timing buffer to ensure smooth transition
   useEffect(() => {
-    loadingStore.onHeroReady(() => {
-      setScenesReady(true)
-    })
-  }, [])
-
-  useEffect(() => {
-    if (!active && progress >= 100 && scenesReady) {
-      const t = setTimeout(() => setVisible(false), 400)
+    if (!active && progress >= 100) {
+      const t = setTimeout(() => setVisible(false), 800)
       return () => clearTimeout(t)
     }
-  }, [active, progress, scenesReady])
+  }, [active, progress])
+
+  // Safety fallback for very large assets/slow deployments
+  // If we've reached 90% and been there for 12s, allow user in
+  useEffect(() => {
+    if (progress >= 90) {
+      const safety = setTimeout(() => setVisible(false), 12000)
+      return () => clearTimeout(safety)
+    }
+  }, [progress])
 
   if (!visible) return null
 
-  const isComplete = !active && progress >= 100 && scenesReady
+  const isComplete = !active && progress >= 100
 
   return (
     <div className={`loading-screen${isComplete ? ' hidden' : ''}`}>
