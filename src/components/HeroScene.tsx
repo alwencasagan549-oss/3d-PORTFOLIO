@@ -174,14 +174,8 @@ useGLTF.preload(getUrl('banana_plant_with_pot.glb'), 'draco/')
 useGLTF.preload(getUrl('office_chair.glb'), 'draco/')
 
 export default function HeroScene() {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
-
   return (
-    <group 
-      rotation={[0.22, -0.55, 0.1]} 
-      position={isMobile ? [0, -1.2, 0] : [0.3, -0.3, 0]}
-      scale={isMobile ? 0.85 : 1}
-    >
+    <group rotation={[0.22, -0.55, 0.1]} position={[0.3, -0.3, 0]}>
       {/* Room Model as a larger environment */}
       <RoomModel pos={[0, 1.15, 0]} rotation={[0, 0, 0]} scale={2} />
 
