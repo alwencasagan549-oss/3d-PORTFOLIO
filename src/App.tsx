@@ -1,7 +1,7 @@
 import { Suspense, useState, useRef, useEffect, useLayoutEffect, lazy } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { AdaptiveDpr, AdaptiveEvents, Preload } from '@react-three/drei'
-import { Github, Mail, Linkedin, Volume2, VolumeX, Phone, MapPin, Menu, X, ExternalLink, AlertTriangle } from 'lucide-react'
+import { Github, Mail, Linkedin, Volume2, VolumeX, Phone, MapPin, Menu, X, ExternalLink, AlertTriangle, Download } from 'lucide-react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -23,6 +23,46 @@ export default function App() {
   const [isContactOpen, setIsContactOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSuspendedModalOpen, setIsSuspendedModalOpen] = useState(false)
+
+  const projects = [
+    {
+      icon: '📦',
+      name: 'Inventory Borrowing System',
+      desc: 'A comprehensive system for tracking borrowed items, managing users, and maintaining records with reporting capabilities.',
+      tags: ['PHP', 'MySQL', 'JavaScript', 'Bootstrap'],
+      features: ['Inventory Management', 'Transaction Processing', 'Sales History Tracking'],
+      url: 'https://inn.xo.je/admin/login.php',
+      buttonType: 'demo'
+    },
+    {
+      icon: '🎓',
+      name: 'EduPortal LMS - Assignment Portal',
+      desc: 'EduPortal LMS is a complete Assignment Portal system built with PHP and MySQL. It provides a seamless platform for teachers to manage assignments and for students to submit their work online.',
+      tags: ['PHP', 'MySQL', 'JavaScript', 'HTML/CSS', 'Bootstrap'],
+      features: ['Assignment Creation & Management', 'Student Submission Portal', 'Automated Grading & Feedback'],
+      url: 'https://edu1.fwh.is/',
+      buttonType: 'demo'
+    },
+    {
+      icon: '🛒',
+      name: 'Simple POS System',
+      desc: 'A complete Point of Sale system with inventory management, transaction processing, and sales history tracking for retail businesses.',
+      tags: ['PHP', 'MySQL', 'JavaScript', 'HTML/CSS', 'REST API'],
+      features: ['Inventory Management', 'Transaction Processing', 'Sales History Tracking'],
+      url: '#',
+      buttonType: 'github',
+      isSuspended: true
+    },
+    {
+      icon: '🎓',
+      name: 'AllWhenQuiz: Premium Quiz System',
+      desc: 'A high-performance, real-time classroom assessment application built with Go and Svelte. Designed for educators who need a professional and reliable quiz platform.',
+      tags: ['Go', 'Svelte', 'Wails', 'SQLite', 'WebSockets'],
+      features: ['Hero-Style Podium & Medals', 'Smart Session Persistence', 'Real-time Avatar Sync', 'Teacher Control Center'],
+      url: 'https://github.com/alwencasagan549-oss/AllWhenQuiz/releases/download/AllWhenQuiz/allwhenquiz.exe',
+      buttonType: 'download'
+    }
+  ]
 
   const sectionRefs = {
     home: useRef<HTMLDivElement>(null),
@@ -577,36 +617,7 @@ export default function App() {
           </div>
 
           <div className="projects-carousel">
-            {[
-              {
-                icon: '📦',
-                name: 'Inventory Borrowing System',
-                desc: 'A comprehensive system for tracking borrowed items, managing users, and maintaining records with reporting capabilities.',
-                tags: ['PHP', 'MySQL', 'JavaScript', 'Bootstrap'],
-                features: ['Inventory Management', 'Transaction Processing', 'Sales History Tracking'],
-                url: 'https://inn.xo.je/admin/login.php',
-                buttonType: 'demo'
-              },
-              {
-                icon: '🎓',
-                name: 'EduPortal LMS - Assignment Portal',
-                desc: 'EduPortal LMS is a complete Assignment Portal system built with PHP and MySQL. It provides a seamless platform for teachers to manage assignments and for students to submit their work online.',
-                tags: ['PHP', 'MySQL', 'JavaScript', 'HTML/CSS', 'Bootstrap'],
-                features: ['Assignment Creation & Management', 'Student Submission Portal', 'Automated Grading & Feedback'],
-                url: 'https://web.42web.io/?i=1',
-                buttonType: 'demo'
-              },
-              {
-                icon: '🛒',
-                name: 'Simple POS System',
-                desc: 'A complete Point of Sale system with inventory management, transaction processing, and sales history tracking for retail businesses.',
-                tags: ['PHP', 'MySQL', 'JavaScript', 'HTML/CSS', 'REST API'],
-                features: ['Inventory Management', 'Transaction Processing', 'Sales History Tracking'],
-                url: '#',
-                buttonType: 'github',
-                isSuspended: true
-              },
-            ].map((p, i) => (
+            {projects.map((p, i) => (
               <div
                 key={p.name}
                 className={`project-card-wrapper ${projectIndex === i ? 'active' : ''} ${projectIndex > i ? 'exit-left' : ''} ${projectIndex < i ? 'enter-right' : ''}`}
@@ -657,6 +668,10 @@ export default function App() {
                       <>
                         <ExternalLink size={16} /> Live Demo
                       </>
+                    ) : p.buttonType === 'download' ? (
+                      <>
+                        <Download size={16} /> Install the exe file
+                      </>
                     ) : (
                       <>
                         <Github size={16} /> View on GitHub
@@ -671,13 +686,13 @@ export default function App() {
           <div className="projects-nav">
             <button 
               className="proj-nav-btn prev" 
-              onClick={() => setProjectIndex((prev) => (prev - 1 + 3) % 3)}
+              onClick={() => setProjectIndex((prev) => (prev - 1 + projects.length) % projects.length)}
               aria-label="Previous project"
             >
               ←
             </button>
             <div className="proj-pagination">
-              {[0, 1, 2].map(i => (
+              {projects.map((_, i) => (
                 <div 
                   key={i} 
                   className={`proj-dot ${projectIndex === i ? 'active' : ''}`}
@@ -687,7 +702,7 @@ export default function App() {
             </div>
             <button 
               className="proj-nav-btn next" 
-              onClick={() => setProjectIndex((prev) => (prev + 1) % 3)}
+              onClick={() => setProjectIndex((prev) => (prev + 1) % projects.length)}
               aria-label="Next project"
             >
               Next →
