@@ -227,6 +227,25 @@ body {
   to { opacity: 0.8; transform: scale(1.02); }
 }
 
+.loading-first-time-warning {
+  margin-top: -10px;
+  max-width: 380px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.4));
+  animation: pulse-visibility 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-visibility {
+  0% { opacity: 0.7; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(-3px); }
+}
+
 /* ============ NAVIGATION ============ */
 .navbar {
   position: fixed;

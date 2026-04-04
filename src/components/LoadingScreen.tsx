@@ -67,6 +67,10 @@ export default function LoadingScreen() {
             <p className="loading-percentage">{Math.round(progress)}%</p>
           </div>
         </div>
+
+        <div className="loading-first-time-warning">
+          Loading 3D models... This may take longer on the first visit. Please wait.
+        </div>
       </div>
       
       <div className="loading-desktop-hint">
