@@ -31,7 +31,7 @@ export default function App() {
       desc: 'A high-end, interactive 3D simulation of a supermassive black hole generated from scratch using pure mathematics and light simulation in real-time.',
       tags: ['React Three Fiber', 'GLSL', 'Three.js', 'Frontend Project'],
       features: ['Gravitational Lensing', 'Relativistic Beaming', 'Custom Shaders (FBM)', 'Cinematic Processing'],
-      url: '#',
+      url: 'https://blackhole1.vercel.app',
       buttonType: 'demo'
     },
     {
@@ -448,7 +448,7 @@ export default function App() {
               <span className="stat-label">Year Experience</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">4</span>
+              <span className="stat-number">5</span>
               <span className="stat-label">Major Projects</span>
             </div>
             <div className="stat-item">
