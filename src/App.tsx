@@ -26,6 +26,15 @@ export default function App() {
 
   const projects = [
     {
+      icon: '🌌',
+      name: 'Cinematic Black Hole',
+      desc: 'A high-end, interactive 3D simulation of a supermassive black hole generated from scratch using pure mathematics and light simulation in real-time.',
+      tags: ['React Three Fiber', 'GLSL', 'Three.js', 'Frontend Project'],
+      features: ['Gravitational Lensing', 'Relativistic Beaming', 'Custom Shaders (FBM)', 'Cinematic Processing'],
+      url: '#',
+      buttonType: 'demo'
+    },
+    {
       icon: '📦',
       name: 'Inventory Borrowing System',
       desc: 'A comprehensive system for tracking borrowed items, managing users, and maintaining records with reporting capabilities.',
