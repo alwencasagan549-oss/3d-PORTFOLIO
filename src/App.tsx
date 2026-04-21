@@ -70,6 +70,15 @@ export default function App() {
       features: ['Hero-Style Podium & Medals', 'Smart Session Persistence', 'Real-time Avatar Sync', 'Teacher Control Center'],
       url: 'https://github.com/alwencasagan549-oss/AllWhenQuiz/releases/download/AllWhenQuiz/allwhenquiz.exe',
       buttonType: 'download'
+    },
+    {
+      icon: '🏛️',
+      name: 'BrgySync Management System',
+      desc: 'A comprehensive web-based management system for barangay operations including resident management, document requests, blotter cases, and financial transactions.',
+      tags: ['PHP', 'MySQL', 'JavaScript', 'Bootstrap'],
+      features: ['Resident Management', 'Document & QR System', 'Blotter Records', 'Financial Management'],
+      url: 'https://by.free.nf/index.php',
+      buttonType: 'demo'
     }
   ]
 
@@ -448,7 +457,7 @@ export default function App() {
               <span className="stat-label">Year Experience</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">5</span>
+              <span className="stat-number">{projects.length}</span>
               <span className="stat-label">Major Projects</span>
             </div>
             <div className="stat-item">
