@@ -26,6 +26,15 @@ export default function App() {
 
   const projects = [
     {
+      icon: '🐖',
+      name: 'CasaganPigery - Premium Farm Management',
+      desc: 'A high-end, modern Farm Management and Marketplace system designed specifically for piggery operations. Built with Laravel 12 and React (Vite).',
+      tags: ['Laravel 12', 'React', 'Vite', 'TypeScript', 'MySQL'],
+      features: ['Dashboard Analytics', 'Breeding Records (114 days)', 'Health & Nutrition Tracking', 'Facebook Messenger Integration'],
+      url: 'https://casaganpigery.ct.ws',
+      buttonType: 'demo'
+    },
+    {
       icon: '🌌',
       name: 'Cinematic Black Hole',
       desc: 'A high-end, interactive 3D simulation of a supermassive black hole generated from scratch using pure mathematics and light simulation in real-time.',
@@ -453,15 +462,15 @@ export default function App() {
           </div>
           <div className="hero-stats">
             <div className="stat-item">
-              <span className="stat-number">1</span>
-              <span className="stat-label">Year Experience</span>
+              <span className="stat-number">2</span>
+              <span className="stat-label">Years Experience</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">{projects.length}</span>
+              <span className="stat-number">{projects.length}+</span>
               <span className="stat-label">Major Projects</span>
             </div>
             <div className="stat-item">
-              <span className="stat-number">1</span>
+              <span className="stat-number">2</span>
               <span className="stat-label">Certifications</span>
             </div>
           </div>
@@ -560,7 +569,7 @@ export default function App() {
                 {[
                   { name: 'HTML & CSS', desc: 'Semantic markup, responsive design, modern CSS', progress: 95 },
                   { name: 'JavaScript', desc: 'Interactive web apps, DOM, ES6+', progress: 90 },
-                  { name: 'PHP & MySQL', desc: 'Backend dev, database design, logic', progress: 85 },
+                  { name: 'Laravel 12', desc: 'Premium PHP framework, MVC, Eloquent ORM', progress: 90 },
                   { name: 'System Dev', desc: 'Inventory, POS, full lifecycle', progress: 80 },
                   { name: 'UI/UX Design', desc: 'User-centered design, prototyping', progress: 75 },
                   { name: 'Python', desc: 'AI/ML, automation, data analysis', progress: 70 },
@@ -586,6 +595,7 @@ export default function App() {
             <div className="scrolly-item">
               <p className="scrolly-summary">
                 <span className="summary-highlight">Full Stack Web Developer</span> with expertise in 
+                <span className="summary-accent"> Laravel 12</span>, 
                 <span className="summary-accent"> PHP</span>, 
                 <span className="summary-accent"> code optimization</span>, and 
                 <span className="summary-accent"> end-to-end application development</span>.
